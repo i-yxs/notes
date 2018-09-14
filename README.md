@@ -23,7 +23,7 @@ getDate(1970,8,6)
 ```
 
 * #### 模拟ios滚动条滑到顶部或底部时，继续滑动会出现类似阻力的效果，越是继续滑动阻力越大
-> ##### 创建：2018/09/13 更新：2018/09/13
+> ##### 创建：2018/09/13
 ```html
 可以使用指数衰减算法    y=-100(1-e^(-a*L))
 
@@ -33,7 +33,7 @@ L:  超出的距离/最大超出距离
 ```
 
 * #### echarts Line图表获取鼠标移动的时候，当前鼠标所处位置的数据
-> ##### 创建：2018/09/13 更新：2018/09/13
+> ##### 创建：2018/09/13
 ```javascript
 var chart = echarts.init('');
 chart.getZr().on('mousemove', function (params) {
@@ -48,4 +48,44 @@ chart.getZr().on('mousemove', function (params) {
     }
 });
 ```
+
+* #### 让IE浏览器支持document.currentScript.src
+> ##### 创建：2018/09/14
+```javascript
+if (document.currentScript === undefined) {
+    document.currentScript = (function () {
+        var src = '';
+        var stack;
+        try {
+            //强制报错,以便捕获e.stack
+            a.b.c();
+        } catch (e) {
+            //safari的错误对象只有line,sourceId,sourceURL
+            stack = e.stack;
+            if (!stack && window.opera) {
+                //opera 9没有e.stack,但有e.Backtrace,但不能直接取得,需要对e对象转字符串进行抽取
+                stack = (String(e).match(/of linked script \S+/g) || []).join(' ');
+            }
+        }
+        if (stack) {
+            //取得最后一行,最后一个空格或@之后的部分
+            stack = stack.split(/[@ ]/g).pop();
+            stack = stack[0] == '(' ? stack.slice(1, -1) : stack;
+            //去掉行号与或许存在的出错字符起始位置
+            src = stack.replace(/(:\d+)?:\d+$/i, '');
+        } else {
+            var nodes = document.getElementsByTagName('script');
+            for (var i = 0, node; node = nodes[i++];) {
+                if (node.readyState === 'interactive') {
+                    src = node.src;
+                    break;
+                }
+            }
+        }
+        return { src: src };
+    })();
+}
+```
+
+
 
