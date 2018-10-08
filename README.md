@@ -99,7 +99,7 @@ $axios.defaults.transformRequest = [function (data) {
 //将上面的代码替换为
 
 $axios.defaults.transformRequest = [function (data) {
-  if (oftenFunc.isType(data, 'object')) {
+  if (Object.prototype.toString.call(data) === 'Object') {
     let ret = ''
     for (let it in data) {
       ret += ret ? '&' : '';
