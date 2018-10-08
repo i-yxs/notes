@@ -84,5 +84,30 @@ if (document.currentScript === undefined) {
 }
 ```
 
+* #### axios发送FormData数据不成功，打开Network发现发送的参数为一个对象字符串，检查main.js是否配置了transformRequest
+> ##### 创建：2018/10/08
+```javascript
+$axios.defaults.transformRequest = [function (data) {
+  let ret = ''
+  for (let it in data) {
+    ret += ret ? '&' : '';
+    ret += it + '=' + data[it];
+  }
+  return ret
+}];
 
+//将上面的代码替换为
+
+$axios.defaults.transformRequest = [function (data) {
+  if (oftenFunc.isType(data, 'object')) {
+    let ret = ''
+    for (let it in data) {
+      ret += ret ? '&' : '';
+      ret += it + '=' + data[it];
+    }
+    return ret
+  }
+  return data;
+}];
+```
 
