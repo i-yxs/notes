@@ -88,8 +88,8 @@ if (document.currentScript === undefined) {
 > ##### 创建：2018/10/08
 ```javascript
 $axios.defaults.transformRequest = [function (data) {
-  let ret = ''
-  for (let it in data) {
+  var ret = ''
+  for (var it in data) {
     ret += ret ? '&' : '';
     ret += it + '=' + data[it];
   }
@@ -100,8 +100,8 @@ $axios.defaults.transformRequest = [function (data) {
 
 $axios.defaults.transformRequest = [function (data) {
   if (Object.prototype.toString.call(data) === 'Object') {
-    let ret = ''
-    for (let it in data) {
+    var ret = ''
+    for (var it in data) {
       ret += ret ? '&' : '';
       ret += it + '=' + data[it];
     }
